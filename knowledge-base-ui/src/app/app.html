@@ -1,0 +1,13 @@
+<div class="app-container">
+  <aside class="sidebar documents">
+    <app-document-upload />
+  </aside>
+
+  <main class="chat-area">
+    <app-chat-interface [conversationId]="currentConversationId" />
+  </main>
+
+  <aside class="sidebar conversations">
+    <app-conversation-list (conversationSelected)="onConversationSelected($event)" />
+  </aside>
+</div>

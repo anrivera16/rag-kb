@@ -1,0 +1,59 @@
+<div class="chat-interface">
+  <div class="messages-container">
+    @if (messages.length === 0 && !isLoading) {
+      <div class="empty-state">
+        <h2>Ask a question</h2>
+        <p>Upload documents and start asking questions about them.</p>
+      </div>
+    }
+
+    @for (message of messages; track $index) {
+      <div class="message" [class.user]="message.role === 'user'" [class.assistant]="message.role === 'assistant'">
+        <div class="message-header">
+          {{ message.role === 'user' ? 'You' : 'Assistant' }}
+        </div>
+        <div class="message-content">{{ message.content }}</div>
+
+        @if (message.sources && message.sources.length > 0) {
+          <div class="sources">
+            <div class="sources-header">Sources:</div>
+            @for (source of message.sources; track $index) {
+              <div class="source-item">
+                <div class="source-text">{{ source.text }}</div>
+                <div class="source-similarity">{{ (source.similarity * 100).toFixed(1) }}% match</div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @if (isLoading) {
+      <div class="message assistant loading">
+        <div class="message-header">Assistant</div>
+        <div class="message-content">
+          <span class="typing-indicator">
+            <span></span><span></span><span></span>
+          </span>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  <div class="input-container">
+    <textarea
+      [(ngModel)]="question"
+      (keydown)="onKeydown($event)"
+      placeholder="Ask a question about your documents..."
+      rows="2"
+      [disabled]="isLoading"
+    ></textarea>
+    <button (click)="sendMessage()" [disabled]="isLoading || !question.trim()">
+      Send
+    </button>
+  </div>
+</div>

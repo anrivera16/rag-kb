@@ -1,0 +1,25 @@
+# Build outputs
+bin/
+obj/
+node_modules/
+dist/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Secrets - never commit
+appsettings.Development.json
+appsettings.Local.json
+*.Development.json
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

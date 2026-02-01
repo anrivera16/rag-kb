@@ -1,0 +1,50 @@
+<div class="document-upload">
+  <h3>Documents</h3>
+
+  <div
+    class="drop-zone"
+    [class.dragging]="isDragging"
+    [class.uploading]="isUploading"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+  >
+    @if (isUploading) {
+      <div class="uploading-indicator">
+        <span class="spinner"></span>
+        <p>Processing document...</p>
+      </div>
+    } @else {
+      <p>Drag & drop a file here</p>
+      <p class="or">or</p>
+      <label class="file-input-label">
+        Browse files
+        <input
+          type="file"
+          accept=".pdf,.docx,.txt"
+          (change)="onFileSelected($event)"
+          hidden
+        />
+      </label>
+      <p class="supported">Supported: PDF, DOCX, TXT</p>
+    }
+  </div>
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  <div class="document-list">
+    @for (doc of documents; track doc.id) {
+      <div class="document-item">
+        <div class="doc-info">
+          <span class="doc-name">{{ doc.filename }}</span>
+          <span class="doc-meta">{{ doc.chunkCount }} chunks</span>
+        </div>
+        <button class="delete-btn" (click)="deleteDocument(doc.id)">Delete</button>
+      </div>
+    } @empty {
+      <p class="no-docs">No documents uploaded yet</p>
+    }
+  </div>
+</div>

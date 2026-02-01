@@ -1,0 +1,28 @@
+<div class="conversation-list">
+  <div class="header">
+    <h3>Conversations</h3>
+    <button class="new-btn" (click)="newConversation()">+ New</button>
+  </div>
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  <div class="list">
+    @for (convo of conversations; track convo.id) {
+      <div
+        class="conversation-item"
+        [class.selected]="selectedId === convo.id"
+        (click)="selectConversation(convo.id)"
+      >
+        <div class="convo-info">
+          <span class="convo-title">{{ convo.title || 'Untitled' }}</span>
+          <span class="convo-meta">{{ convo.messageCount }} messages</span>
+        </div>
+        <button class="delete-btn" (click)="deleteConversation(convo.id, $event)">×</button>
+      </div>
+    } @empty {
+      <p class="no-convos">No conversations yet</p>
+    }
+  </div>
+</div>
